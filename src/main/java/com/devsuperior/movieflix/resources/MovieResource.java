@@ -40,5 +40,7 @@ public class MovieResource {
 		List<MovieDTO> movies =  service.listByGenre(genreId);
 		return ResponseEntity.ok().body(movies);
 	}
+	
+	
 
 }

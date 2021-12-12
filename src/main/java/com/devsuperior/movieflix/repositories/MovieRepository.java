@@ -12,7 +12,7 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 
 	Optional<Movie> findById(Long id);
 	
-	@Query("SELECT m FROM Movie m WHERE m.genre.id = :genreId")
+	@Query("SELECT m FROM Movie m WHERE m.genre.id = :genreId OR :genreId = 0  order by m.title")
 	List<Movie> findByGenreId(Long genreId);
 	
 }
