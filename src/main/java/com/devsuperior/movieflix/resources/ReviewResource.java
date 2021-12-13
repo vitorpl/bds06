@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,11 +45,12 @@ public class ReviewResource {
 	}
 	
 	/** O @Valid faz as validações do bean validation definidas no dto */
+	@PreAuthorize("hasAnyRole('MEMBER')")
 	@PostMapping
 	public ResponseEntity<ReviewDTO> salvar(@Valid @RequestBody ReviewDTO dto) {
 		UserDTO userAuthDto = authService.authenticatedUserDTO();
 		dto.setUser(userAuthDto);
-		System.out.println("USER -> "+dto.getUser());
+		
 		MovieDTO movieDto = new MovieDTO();
 		movieDto.setId(dto.getMovieId());
 		dto.setMovie(movieDto);
@@ -58,7 +60,6 @@ public class ReviewResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 						.buildAndExpand(dto.getId()).toUri();
 		
-		System.out.println("USER -> "+dto.getUser());
 		return ResponseEntity.created(uri).body(dto);
 	}
 	

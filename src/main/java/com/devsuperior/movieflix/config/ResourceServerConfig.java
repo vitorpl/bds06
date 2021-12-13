@@ -24,7 +24,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
 	private static final String[] PUBLIC = { "/oaut/token", "/h2-console/**" };
 	// configurar VISITOR e MEMBER
-	private static final String[] VISITOR = { "/products/**", "/categories/**" };
 	private static final String[] MEMBER = { "/reviews/**", "/categories/**" };
 	private static final String[] VISITOR_OR_MEMBER = {"/reviews/**", "/movies/**"};
 	
