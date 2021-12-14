@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,15 @@ public class MovieService {
 	public List<MovieDTO> listByGenre(Long genreId) {
 		List<Movie> movies = repository.findByGenreId(genreId);
 		List<MovieDTO> moviesDTO = movies.stream().map(mov -> new MovieDTO(mov)).collect(Collectors.toList());
+		
+		return moviesDTO;
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<MovieDTO> listByGenrePageable(Long genreId, Pageable pageable) {
+		Page<Movie> page = repository.findByGenreId(genreId, pageable);
+		//List<MovieDTO> moviesDTO = page.stream().map(mov -> new MovieDTO(mov)).collect(Collectors.toList());
+		Page<MovieDTO> moviesDTO = page.map(mov -> new MovieDTO(mov));
 		
 		return moviesDTO;
 	}

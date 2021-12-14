@@ -3,6 +3,8 @@ package com.devsuperior.movieflix.resources;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,11 +36,13 @@ public class MovieResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<MovieDTO>> listByGenre(
-			@RequestParam(name = "genreId", defaultValue = "0") Long genreId
+	public ResponseEntity<Page<MovieDTO>> listByGenre(
+				@RequestParam(name = "genreId", defaultValue = "0") Long genreId,
+				Pageable pageable
 			) {
-		List<MovieDTO> movies =  service.listByGenre(genreId);
-		return ResponseEntity.ok().body(movies);
+		//List<MovieDTO> movies =  service.listByGenre(genreId);
+		Page<MovieDTO> page = service.listByGenrePageable(genreId, pageable);
+		return ResponseEntity.ok().body(page);
 	}
 	
 	
